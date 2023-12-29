@@ -1,22 +1,30 @@
 #!/usr/bin/env python3
-# license removed for brevity
+ # license removed for brevity
 import rospy
 from std_msgs.msg import Bool
-import keyboard
-
+ 
 def talker():
-    pub = rospy.Publisher('spacebar_pressed', Bool, queue_size=10)
-    rospy.init_node('spacebar_detector', anonymous=True)
-    rate = rospy.Rate(10)  # 10Hz
+     pub = rospy.Publisher('Exit', Bool, queue_size=10)
+     rospy.init_node('ekill', anonymous=True)
+     rate = rospy.Rate(10) # 10hz
+     while not rospy.is_shutdown():
+          try:
+            # Wait for user input
+            key = input("(Enter 'exit' to quit): ")
+            
+            if key.lower() == 'exit':
+                spacebar_pressed = True
+            else:
+                spacebar_pressed = False
 
-    while not rospy.is_shutdown():
-        spacebar_pressed = keyboard.is_pressed('space')
-        rospy.loginfo(f"Spacebar Pressed: {spacebar_pressed}")
-        pub.publish(spacebar_pressed)
-        rate.sleep()
-
+            rospy.loginfo(f"Exit: {spacebar_pressed}")
+            pub.publish(spacebar_pressed)
+            rate.sleep()
+          except KeyboardInterrupt:
+            break
+ 
 if __name__ == '__main__':
     try:
-        talker()
+         talker()
     except rospy.ROSInterruptException:
-        pass
+         pass
