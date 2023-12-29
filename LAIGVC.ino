@@ -21,7 +21,7 @@ void killCallback(const std_msgs::Bool& msg)
 }
 
 ros::Subscriber<std_msgs::Float32> sub("/float_data", &avgCallback);
-ros::Subscriber<std_msgs::Float32> sub("/spacebar_pressed", &killCallback);
+ros::Subscriber<std_msgs::Float32> sub("/Exit", &killCallback);
 
 const int motor1IN1 = 11;
 const int motor1IN2 = 9;
